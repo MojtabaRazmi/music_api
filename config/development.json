@@ -1,0 +1,10 @@
+{
+    "Level": "development",
+    "PORT": 3000,
+    "JSONWEBSECRET": "musicSecret",
+    "MONGOURI": "mongodb://localhost:27017/MUSIC_DB",
+    "MONGOOPTIONS": {
+        "useCreateIndex": true,
+        "useNewUrlParser": true
+    }
+}
