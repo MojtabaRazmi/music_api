@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const bcrypt = require('bcrypt')
 
 const {AdminUser} = require('./../../db/model/adminUser');
 
@@ -6,6 +7,12 @@ const {AdminUser} = require('./../../db/model/adminUser');
 let adminRegister =async function(req, res){
 
   const body = _.pick(req.body,['userName', 'password']);
+
+  bcrypt.genSalt(10,(err,salt)=>{
+    bcrypt.hash(body.password,salt,(err,hashedPass)=>{
+      body.password =hashedPass
+    })
+  })
 
   let adminUser = new AdminUser(body);
   adminUser.save().then((user)=>{
@@ -38,7 +45,7 @@ let adminLogin = async function(req, res){
   }catch (e) {
     res.status(400).json({
       statusCode: 400,
-      message: 'this account not exist' +e
+      message: 'some error was happen ,'+' '+e
     });
   }
 };

@@ -30,19 +30,21 @@ AdminUserSchema.statics.findByCredential = function(userName, password){
   return adminUser.findOne({
     userName: userName
   }).then((user)=>{
-
     if (!user){
       user.status(203).send('user not found')
       return Promise.reject('can not find user');
     }
 
+
+
     return new Promise((resolve, reject)=>{
-      bcrypt.compare(password, user.password, (res, err)=>{
-        if (res){
-          return resolve(user);
-        }
+       bcrypt.compare(password, user.password).then((res)=>{
+          if(res){
+            return resolve(user);
+          }
+
           return reject('password is wrong');
-      });
+        });
     });
 
   },(err)=>{
@@ -92,7 +94,6 @@ AdminUserSchema.methods.toJSON = function () {
 
   return _.pick(userObject, ['_id', 'userName', 'tokens']);
 };
-
 
 const AdminUser = mongoose.model('AdminUser',AdminUserSchema,'AdminUser');
 

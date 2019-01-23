@@ -17,9 +17,8 @@ app.get('*', function(req, res) {
   res.sendFile(path.join(__dirname, 'client/build' , 'index.html'));
 });
 
-app.listen(80,()=>{
+app.listen(config.get('PORT'),()=>{
     console.log('app run on port:'+config.get('PORT'));
 })
 
 
-// config.get('PORT')
